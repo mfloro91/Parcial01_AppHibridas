@@ -1,14 +1,19 @@
 import express from "express"
+import { getAllOrders, getAllOrdersById } from "../controllers/orderController.js";
 
 const router = express.Router();
 
 // Endpoints para órdenes o pedidos de los huéspedes
 
+
 // Lista todas las solicitudes de los huespedes (para admins del hotel)
-router.get('/')
+router.get('/', getAllOrders)
 
 // Ver detalle de una solicitud
-router.get('/:id')
+router.get('/:id', getAllOrdersById)
+
+/*
+
 
 // Crear una nueva solicitud (vista habilitada para el usuario o huesped)
 router.post('/')
@@ -17,6 +22,6 @@ router.post('/')
 router.patch('/:id')
 
 // Eliminar la solicitud? (no se si ofrecer esta opcion)
-router.delete('/:id')
+router.delete('/:id')*/
 
 export default router;
