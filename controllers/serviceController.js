@@ -1,4 +1,5 @@
 import { getAllService, getAllServiceById } from "../models/serviceModel.js";
+import * as serviceService from "../services/serviceService.js";
 
 export const getAllServices = (req, res) => {
     const services = getAllService();
@@ -14,4 +15,10 @@ export const getAllServicesById = (req, res) => {
     } else {
         res.status(404).json({Error: "Servicio no encontrado"})
     }
+}
+
+export async function addService (req, res) {
+    const {hotel_id, title, description, availableHours} = req.body;
+    const newService = await serviceService.createService({hotel_id, title, description, availableHours});
+    res.status(201).json(newService);
 }

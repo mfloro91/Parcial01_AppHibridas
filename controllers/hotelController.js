@@ -1,4 +1,5 @@
 import { getAllHotel, getAllHotelById } from "../models/hotelModel.js";
+import * as hotelService from "../services/hotelService.js";
 
 export const getAllHotels = (req, res) => {
     const hotels = getAllHotel();
@@ -15,3 +16,11 @@ export const getAllHotelsById = (req, res) => {
         res.status(404).json({Error: "Hotel no encontrado"})
     }
 }
+
+export async function addHotel (req, res) {
+    const {name, logo, description, languages} = req.body;
+    const newHotel = await hotelService.createHotel({name, logo, description, languages});
+    res.status(201).json(newHotel);
+}
+
+
