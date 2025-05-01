@@ -54,4 +54,19 @@ export const editHotel = (req, res) => {
 
 }
 
+// Funcion para eliminar hotel existente
+export const deleteHotel = (req, res) => {
+    const hotels = getAllHotel();
+    const hotelIndex = hotels.findIndex(h => h.id === parseInt (req.params.id));
+
+    if (hotelIndex === -1) {
+       return res.status(404).json({Error: "Hotel no encontrado"})
+    }
+
+    const deletedHotel = hotels.splice(hotelIndex, 1);
+    saveHotel(hotels);
+    res.json(deletedHotel);
+
+}
+
 

@@ -1,5 +1,5 @@
 import express from "express"
-import { addOrder, editOrderStatus, getAllOrders, getAllOrdersById } from "../controllers/orderController.js";
+import { addOrder, deleteOrder, editOrderStatus, getAllOrders, getAllOrdersById } from "../controllers/orderController.js";
 
 const router = express.Router();
 
@@ -18,9 +18,7 @@ router.post('/', addOrder)
 // Cambiar el estado de la solicitud (solo para admin)
 router.patch('/:id', editOrderStatus);
 
-/*
-
-// Eliminar la solicitud? (no se si ofrecer esta opcion)
-router.delete('/:id')*/
+// Eliminar la solicitud
+router.delete('/:id', deleteOrder);
 
 export default router;

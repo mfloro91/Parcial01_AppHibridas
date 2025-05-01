@@ -52,3 +52,19 @@ export const editService = (req, res) => {
     res.json(service);
 
 }
+
+
+// Funcion para eliminar servicio existente
+export const deleteService = (req, res) => {
+    const services = getAllService();
+    const serviceIndex = services.findIndex(s => s.id === parseInt (req.params.id));
+
+    if (serviceIndex === -1) {
+       return res.status(404).json({Error: "Servicio no encontrado"})
+    }
+
+    const deletedService = services.splice(setviceIndex, 1);
+    saveService(services);
+    res.json(deletedService);
+
+}

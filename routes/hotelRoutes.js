@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllHotels, getAllHotelsById, addHotel, editHotel } from "../controllers/hotelController.js";
+import { getAllHotels, getAllHotelsById, addHotel, editHotel, deleteHotel } from "../controllers/hotelController.js";
 
 const router = express.Router();
 
@@ -17,8 +17,7 @@ router.post('/', addHotel);
 // Editar un hotel existente
 router.put('/:id', editHotel);
 
-
-/*
-router.delete('/:id')*/
+// Elimina un hotel
+router.delete('/:id', deleteHotel);
 
 export default router;

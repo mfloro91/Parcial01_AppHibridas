@@ -46,3 +46,18 @@ export const editOrderStatus = (req, res) => {
     res.json(order);
 
 }
+
+// Funcion para eliminar orden existente
+export const deleteOrder = (req, res) => {
+    const orders = getAllOrder();
+    const orderIndex = orders.findIndex(o => o.id === parseInt (req.params.id));
+
+    if (orderIndex === -1) {
+       return res.status(404).json({Error: "Órden no encontrado"})
+    }
+
+    const deletedOrder = orders.splice(orderIndex, 1);
+    saveOrder(orders);
+    res.json(deletedOrder);
+
+}

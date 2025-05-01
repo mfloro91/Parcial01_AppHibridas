@@ -1,5 +1,5 @@
 import express from "express"
-import { addService, editService, getAllServices, getAllServicesById } from "../controllers/serviceController.js";
+import { addService, deleteService, editService, getAllServices, getAllServicesById } from "../controllers/serviceController.js";
 
 const router = express.Router();
 
@@ -18,8 +18,7 @@ router.post('/', addService)
 // Editar un servicio
 router.put('/:id', editService);
 
-/*
 // Eliminar un servicio
-router.delete('/:id')*/
+router.delete('/:id', deleteService);
 
 export default router;
