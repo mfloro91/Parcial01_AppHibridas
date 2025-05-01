@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllHotels, getAllHotelsById, addHotel } from "../controllers/hotelController.js";
+import { getAllHotels, getAllHotelsById, addHotel, editHotel } from "../controllers/hotelController.js";
 
 const router = express.Router();
 
@@ -14,8 +14,11 @@ router.get('/:id', getAllHotelsById)
 // Crear info relativa a un nuevo hotel (solo para admins)
 router.post('/', addHotel);
 
+// Editar un hotel existente
+router.put('/:id', editHotel);
+
+
 /*
-router.put('/:id')
 router.delete('/:id')*/
 
 export default router;

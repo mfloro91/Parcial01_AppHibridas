@@ -1,5 +1,5 @@
 import express from "express"
-import { addOrder, getAllOrders, getAllOrdersById } from "../controllers/orderController.js";
+import { addOrder, editOrderStatus, getAllOrders, getAllOrdersById } from "../controllers/orderController.js";
 
 const router = express.Router();
 
@@ -15,10 +15,10 @@ router.get('/:id', getAllOrdersById)
 // Crear una nueva solicitud (vista habilitada para el usuario o huesped)
 router.post('/', addOrder)
 
-/*
-
 // Cambiar el estado de la solicitud (solo para admin)
-router.patch('/:id')
+router.patch('/:id', editOrderStatus);
+
+/*
 
 // Eliminar la solicitud? (no se si ofrecer esta opcion)
 router.delete('/:id')*/

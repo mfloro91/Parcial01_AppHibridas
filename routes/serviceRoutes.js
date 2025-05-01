@@ -1,5 +1,5 @@
 import express from "express"
-import { addService, getAllServices, getAllServicesById } from "../controllers/serviceController.js";
+import { addService, editService, getAllServices, getAllServicesById } from "../controllers/serviceController.js";
 
 const router = express.Router();
 
@@ -15,11 +15,10 @@ router.get('/:id', getAllServicesById)
 // Crear un nuevo servicio
 router.post('/', addService)
 
+// Editar un servicio
+router.put('/:id', editService);
 
 /*
-// Editar un servicio
-router.put('/:id')
-
 // Eliminar un servicio
 router.delete('/:id')*/
 
