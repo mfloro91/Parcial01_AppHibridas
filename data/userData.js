@@ -4,6 +4,6 @@ export let users = [
         "name": "Flor",
         "userName": "admin",
         "email": "hola@gmail.com",
-        "password": "123"
+        "password": "$2b$10$ev1pzBZAVzLZQFBumdINXO8IwdGRQUDtOzxyF.sU.RKw0zFyzBOxG"
       },
 ]
