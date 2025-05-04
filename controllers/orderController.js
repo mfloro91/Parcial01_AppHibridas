@@ -1,63 +1,57 @@
-import { getAllOrder, getAllOrderById, saveOrder } from "../models/orderModel.js";
-import * as orderService from "../services/orderService.js";
+import orderModel from "../models/orderModel.js";
 
-// Funcion para obtener todas las órdenes
-export const getAllOrders = (req, res) => {
-    const orders = getAllOrder();
-    res.json(orders)
+// Funcion para obtener todos los pedidos
+export const getAllOrders = async (req, res) => {
+    try {
+        const orders = await orderModel.find();
+        res.json(orders)
+    } catch(err) {
+        res.status(400).json({error: err.message})
+    }
+
 }
 
-
-// Funcion para ver ordenes por ID
-export const getAllOrdersById = (req, res) => {
-    const orderId = parseInt(req.params.id);
-    const order = getAllOrderById(orderId);
-
-    if (order) {
-        res.json(order)
-    } else {
-        res.status(404).json({Error: "Órden no encontrada"})
+// Funcion para obtener pedidos por ID
+export const getAllOrdersById = async (req, res) => {
+    try {
+        const orders = await orderModel.findById(req.params.id);
+        res.json(orders)
+    }catch(err) {
+        res.status(400).json({error: err.message})
     }
 }
 
-// Funcion para hacer una nueva orden
+// Funcion para agregar nuevos pedidos
 export async function addOrder (req, res) {
-    const {hotel_id, service_id, room_number, note, status} = req.body;
-    const newOrder = await orderService.createOrder({hotel_id, service_id, room_number, note, status});
-    res.status(201).json(newOrder);
-}
+    try {
+        const order = new orderModel({...req.body});
+        const newOrder = await order.save();
+        res.json(newOrder)
+    } catch(err) {
+        res.status(400).json({error: err.message})
+    }
+} 
 
 
 // Funcion solo para admins (modifican status de la orden)
-export const editOrderStatus = (req, res) => {
-    const orderId = parseInt(req.params.id);
-    const order = getAllOrderById(orderId);
-    const orders = getAllOrder();
 
-    if (!order) {
-       return res.status(404).json({Error: "Órden no encontrada"})
-    }
-
+export const editOrderStatus = async (req, res) => {
     const {status} = req.body;
-
-    order.status = status;
-
-    saveOrder(orders);
-    res.json(order);
-
-}
-
-// Funcion para eliminar orden existente
-export const deleteOrder = (req, res) => {
-    const orders = getAllOrder();
-    const orderIndex = orders.findIndex(o => o.id === parseInt (req.params.id));
-
-    if (orderIndex === -1) {
-       return res.status(404).json({Error: "Órden no encontrado"})
+    try {
+        const orderUpdated = await orderModel.findByIdAndUpdate(req.params.id, { status }, {new: true});
+        res.json(orderUpdated)
+    }catch(err) {
+        res.status(400).json({error: err.message})
     }
-
-    const deletedOrder = orders.splice(orderIndex, 1);
-    saveOrder(orders);
-    res.json(deletedOrder);
-
 }
+
+// Funcion para eliminar pedido existente
+export const deleteOrder = async (req, res) => {
+    try {
+        const orderDeleted = await orderModel.findByIdAndDelete(req.params.id);
+        res.json(orderDeleted)
+    }catch(err) {
+        res.status(400).json({error: err.message})
+    }
+}
+

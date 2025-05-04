@@ -1,17 +1,26 @@
-import { orders } from "../data/orderData.js";
-import fs from "fs/promises";
-import path from "path";
+import mongoose from "mongoose";
 
-const dataPath = path.resolve('data/orderData.js');
+const orderSchema = new mongoose.Schema( {
+    hotel_id: {
+        type: Number,
+        required: true,
+    },
+    service_id: {
+        type: Number,
+        required: true,
+    },
+    room_number: {
+        type: Number,
+        required: true,
+    },
+    note: {
+        type: String,
+        required: false,
+    },
+    status: {
+        type: String,
+        required: true,
+    }
+})
 
-export const getAllOrder = () => {
-    return orders;
-}
-
-export const getAllOrderById = (id) => {
-    return orders.find(order => order.id === id);
-}
-
-export async function saveOrder(orders){
-    await fs.writeFile(dataPath, JSON.stringify(orders));
-}
+export default mongoose.model('Order', orderSchema);

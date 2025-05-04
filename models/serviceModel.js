@@ -1,17 +1,22 @@
-import { services } from "../data/serviceData.js";
-import fs from "fs/promises";
-import path from "path";
+import mongoose from "mongoose";
 
-const dataPath = path.resolve('data/serviceData.js');
+const serviceSchema = new mongoose.Schema( {
+    hotel_id: {
+        type: Number,
+        required: true,
+    },
+    title: {
+        type: String,
+        required: false,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    availableHours: {
+        type: String,
+        required: true,
+    }
+})
 
-export const getAllService = () => {
-    return services;
-}
-
-export const getAllServiceById = (id) => {
-    return services.find(service => service.id === id);
-}
-
-export async function saveService(services){
-    await fs.writeFile(dataPath, JSON.stringify(services));
-}
+export default mongoose.model('Service', serviceSchema);

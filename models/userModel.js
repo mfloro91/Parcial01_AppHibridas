@@ -1,13 +1,22 @@
-import { users } from "../data/userData.js";
-import fs from "fs/promises";
-import path from "path";
+import mongoose from "mongoose";
 
-const dataPath = path.resolve('data/userData.js');
+const userSchema = new mongoose.Schema( {
+    name: {
+        type: String,
+        required: true,
+    },
+    userName: {
+        type: String,
+        required: false,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    }
+})
 
-export const getAllUser = () => {
-    return users;
-}
-
-export async function saveUser(users){
-    await fs.writeFile(dataPath, JSON.stringify(users));
-}
+export default mongoose.model('User', userSchema);

@@ -1,70 +1,56 @@
-import { getAllService, getAllServiceById, saveService } from "../models/serviceModel.js";
-import * as serviceService from "../services/serviceService.js";
-
+import serviceModel from "../models/serviceModel.js";
 
 // Funcion para obtener todos los servicios
-export const getAllServices = (req, res) => {
-    const services = getAllService();
-    res.json(services)
+export const getAllServices = async (req, res) => {
+    try {
+        const services = await serviceModel.find();
+        res.json(services)
+    } catch(err) {
+        res.status(400).json({error: err.message})
+    }
+
 }
 
-// Funcion para filtrar servicios por ID
-export const getAllServicesById = (req, res) => {
-    const serviceId = parseInt(req.params.id);
-    const service = getAllServiceById(serviceId);
-
-    if (service) {
-        res.json(service)
-    } else {
-        res.status(404).json({Error: "Servicio no encontrado"})
+// Funcion para obtener servicios por ID
+export const getAllServicesById = async (req, res) => {
+    try {
+        const services = await serviceModel.findById(req.params.id);
+        res.json(services)
+    }catch(err) {
+        res.status(400).json({error: err.message})
     }
 }
 
-// Funcion para agregar nuevo servicio
+// Funcion para agregar nuevos servicios
 export async function addService (req, res) {
-    const {hotel_id, title, description, availableHours} = req.body;
-    const newService = await serviceService.createService({hotel_id, title, description, availableHours});
-    res.status(201).json(newService);
-}
-
-// Funcion para editar servicio existente
-export const editService = (req, res) => {
-    const serviceId = parseInt(req.params.id);
-    const service = getAllServiceById(serviceId);
-    const services = getAllService();
-
-    if (!service) {
-       return res.status(404).json({Error: "Servicio no encontrado"})
+    try {
+        const service = new serviceModel({...req.body});
+        const newService = await service.save();
+        res.json(newService)
+    } catch(err) {
+        res.status(400).json({error: err.message})
     }
+} 
 
-    const {hotel_id, title, description, availableHours} = req.body;
 
-    if (!hotel_id || !title || !description || !availableHours) {
-        return res.status(400).send('Los campos son obligatorios');
+// Funcion para editar un servicio
+
+export const editService = async (req, res) => {
+    try {
+        const serviceUpdated = await serviceModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        res.json(serviceUpdated)
+    }catch(err) {
+        res.status(400).json({error: err.message})
     }
-
-    service.hotel_id = hotel_id;
-    service.title = title;
-    service.description = description;
-    service.availableHours = availableHours;
-
-    saveService(services);
-    res.json(service);
-
 }
-
 
 // Funcion para eliminar servicio existente
-export const deleteService = (req, res) => {
-    const services = getAllService();
-    const serviceIndex = services.findIndex(s => s.id === parseInt (req.params.id));
-
-    if (serviceIndex === -1) {
-       return res.status(404).json({Error: "Servicio no encontrado"})
+export const deleteService = async (req, res) => {
+    try {
+        const serviceDeleted = await serviceModel.findByIdAndDelete(req.params.id);
+        res.json(serviceDeleted)
+    }catch(err) {
+        res.status(400).json({error: err.message})
     }
-
-    const deletedService = services.splice(setviceIndex, 1);
-    saveService(services);
-    res.json(deletedService);
-
 }
+
