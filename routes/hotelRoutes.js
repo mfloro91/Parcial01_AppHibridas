@@ -1,24 +1,23 @@
 import express from "express"
-import { getAllHotels, getAllHotelsById, addHotel, editHotel, deleteHotel } from "../controllers/hotelController.js";
-import { authenticateJWT } from "../middlewares/authMiddleware.js";
+import { getAllHotels, addHotel, getAllHotelsById, editHotel, deleteHotel } from "../controllers/hotelController.js";
 
 const router = express.Router();
 
 // Endpoints para hoteles
 
 // Lista todos los hoteles (solo para superadmin)
-router.get('/', authenticateJWT, getAllHotels)
+router.get('/', getAllHotels)
 
 // Ver detalle de un hotel por ID (solo para superadmin)
-router.get('/:id', authenticateJWT, getAllHotelsById)
+router.get('/:id', getAllHotelsById)
 
 // Crear info relativa a un nuevo hotel (solo para admins)
-router.post('/', authenticateJWT, addHotel);
+router.post('/', addHotel);
 
-// Editar un hotel existente
-router.put('/:id', authenticateJWT, editHotel);
+// Editar un hotel existente (solo para admins)
+router.put('/:id', editHotel);
 
-// Elimina un hotel
-router.delete('/:id', authenticateJWT, deleteHotel);
+// Elimina un hotel (solo para superadmins)
+router.delete('/:id', deleteHotel);
 
 export default router;

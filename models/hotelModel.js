@@ -1,17 +1,19 @@
-import { hotels } from "../data/hotelData.js";
-import fs from "fs/promises";
-import path from "path";
+import mongoose from "mongoose";
 
-const dataPath = path.resolve('data/hotelData.js');
+const hotelSchema = new mongoose.Schema( {
+    name: {
+        type: String,
+        required: true,
+    },
+    logo: {
+        type: String,
+        required: false,
+    },
+    description: {
+        type: String,
+        required: false,
+    },
+    languages: [{type: String}]
+})
 
-export const getAllHotel = () => {
-    return hotels;
-}
-
-export const getAllHotelById = (id) => {
-    return hotels.find(hotel => hotel.id === id);
-}
-
-export async function saveHotel(hotels){
-    await fs.writeFile(dataPath, JSON.stringify(hotels));
-}
+export default mongoose.model('Hotel', hotelSchema);

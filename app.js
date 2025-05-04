@@ -3,12 +3,20 @@ import hotelRoutes from "./routes/hotelRoutes.js"
 import serviceRoutes from "./routes/serviceRoutes.js"
 import orderRoutes from "./routes/orderRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
+import mongoose from "mongoose"
+import dotenv from "dotenv"
+import { authenticateJWT } from "./middlewares/authMiddleware.js"
+
+dotenv.config();
+mongoose.connect(process.env.MONGODB_URI)
+.then(() => console.log("Conexión a Mongo exitosa"))
+.catch((err) => console.log("Error al conectar con Mongo", err));
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use('/hotels', hotelRoutes)
+app.use('/hotels', authenticateJWT, hotelRoutes)
 app.use('/services', serviceRoutes)
 app.use('/orders', orderRoutes)
 app.use('/users', userRoutes)

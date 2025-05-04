@@ -1,72 +1,55 @@
-import { getAllHotel, getAllHotelById, saveHotel } from "../models/hotelModel.js";
-import * as hotelService from "../services/hotelService.js";
+import hotelModel from "../models/hotelModel.js";
 
 // Funcion para obtener todos los hoteles
-export const getAllHotels = (req, res) => {
-    const hotels = getAllHotel();
-    res.json(hotels)
+export const getAllHotels = async (req, res) => {
+    try {
+        const hotels = await hotelModel.find();
+        res.json(hotels)
+    } catch(err) {
+        res.status(400).json({error: err.message})
+    }
+
 }
 
 // Funcion para obtener hoteles por ID
-export const getAllHotelsById = (req, res) => {
-    const hotelId = parseInt(req.params.id);
-    const hotel = getAllHotelById(hotelId);
-
-    if (hotel) {
-        res.json(hotel)
-    } else {
-        res.status(404).json({Error: "Hotel no encontrado"})
+export const getAllHotelsById = async (req, res) => {
+    try {
+        const hotels = await hotelModel.findById(req.params.id);
+        res.json(hotels)
+    }catch(err) {
+        res.status(400).json({error: err.message})
     }
 }
 
 // Funcion para agregar nuevos hoteles
 export async function addHotel (req, res) {
-    const {name, logo, description, languages} = req.body;
-    const newHotel = await hotelService.createHotel({name, logo, description, languages});
-    res.status(201).json(newHotel);
-}
+    try {
+        const hotel = new hotelModel({...req.body});
+        const newHotel = await hotel.save();
+        res.json(newHotel)
+    } catch(err) {
+        res.status(400).json({error: err.message})
+    }
+} 
 
 
 // Funcion para editar hotel existente
-export const editHotel = (req, res) => {
-    const hotelId = parseInt(req.params.id);
-    const hotel = getAllHotelById(hotelId);
-    const hotels = getAllHotel();
-
-    if (!hotel) {
-       return res.status(404).json({Error: "Hotel no encontrado"})
+export const editHotel = async (req, res) => {
+    try {
+        const hotelUpdated = await hotelModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        res.json(hotelUpdated)
+    }catch(err) {
+        res.status(400).json({error: err.message})
     }
-
-    const {name, logo, description, languages} = req.body;
-
-    if (!name || !logo || !description || !languages) {
-        return res.status(400).send('Los campos son obligatorios');
-    }
-
-    hotel.name = name;
-    hotel.logo = logo;
-    hotel.description = description;
-    hotel.languages = languages;
-
-    saveHotel(hotels);
-
-    res.json(hotel);
-
 }
 
-// Funcion para eliminar hotel existente
-export const deleteHotel = (req, res) => {
-    const hotels = getAllHotel();
-    const hotelIndex = hotels.findIndex(h => h.id === parseInt (req.params.id));
-
-    if (hotelIndex === -1) {
-       return res.status(404).json({Error: "Hotel no encontrado"})
+// Funcion para eliminar hotel
+export const deleteHotel = async (req, res) => {
+    try {
+        const hotelDeleted = await hotelModel.findByIdAndDelete(req.params.id);
+        res.json(hotelDeleted)
+    }catch(err) {
+        res.status(400).json({error: err.message})
     }
-
-    const deletedHotel = hotels.splice(hotelIndex, 1);
-    saveHotel(hotels);
-    res.json(deletedHotel);
-
 }
-
 
