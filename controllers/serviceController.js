@@ -1,9 +1,10 @@
 import serviceModel from "../models/serviceModel.js";
+import hotelModel from "../models/hotelModel.js";
 
 // Funcion para obtener todos los servicios
 export const getAllServices = async (req, res) => {
     try {
-        const services = await serviceModel.find();
+        const services = await serviceModel.find().populate('hotel_id', 'name logo');
         res.json(services)
     } catch(err) {
         res.status(400).json({error: err.message})
@@ -14,7 +15,7 @@ export const getAllServices = async (req, res) => {
 // Funcion para obtener servicios por ID
 export const getAllServicesById = async (req, res) => {
     try {
-        const services = await serviceModel.findById(req.params.id);
+        const services = await serviceModel.findById(req.params.id).populate('hotel_id', 'name logo');
         res.json(services)
     }catch(err) {
         res.status(400).json({error: err.message})
@@ -24,9 +25,24 @@ export const getAllServicesById = async (req, res) => {
 // Funcion para agregar nuevos servicios
 export async function addService (req, res) {
     try {
-        const service = new serviceModel({...req.body});
+        const {hotel_id, title, description, availableHours } = req.body;
+
+        // Verificando si el hotel existe
+        const hotel = await hotelModel.findById(hotel_id);
+        if (!hotel) {
+            return res.status(400).json({error: "Hotel no encontrado"});
+        }
+
+        const service = new serviceModel({
+            hotel_id,
+            title,
+            description,
+            availableHours
+        });
+
         const newService = await service.save();
         res.json(newService)
+        
     } catch(err) {
         res.status(400).json({error: err.message})
     }

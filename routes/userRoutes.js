@@ -8,7 +8,7 @@ const router = express.Router();
 // Endpoints para usuarios
 
 // Lista todos los usuarios (solo para admins)
-router.get('/', authenticateJWT, getAllUsers);
+router.get('/', /*authenticateJWT,*/ getAllUsers);
 
 // Crear nuevo usuario
 router.post('/', createUser);

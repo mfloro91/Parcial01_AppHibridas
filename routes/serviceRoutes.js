@@ -14,12 +14,12 @@ router.get('/', getAllServices)
 router.get('/:id', getAllServicesById)
 
 // Crear un nuevo servicio (solo para admins)
-router.post('/', authenticateJWT, addService)
+router.post('/', /*authenticateJWT,*/ addService)
 
 // Editar un servicio (solo para admins)
-router.put('/:id', authenticateJWT, editService);
+router.put('/:id', /*authenticateJWT,*/ editService);
 
 // Eliminar un servicio (solo para admins)
-router.delete('/:id', authenticateJWT, deleteService);
+router.delete('/:id', /*authenticateJWT,*/ deleteService);
 
 export default router;

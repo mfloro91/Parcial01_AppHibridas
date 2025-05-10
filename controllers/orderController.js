@@ -1,9 +1,11 @@
 import orderModel from "../models/orderModel.js";
+import hotelModel from "../models/hotelModel.js";
+import serviceModel from "../models/serviceModel.js";
 
 // Funcion para obtener todos los pedidos
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await orderModel.find();
+        const orders = await orderModel.find().populate('hotel_id', 'name logo').populate('service_id', 'title description availableHours');
         res.json(orders)
     } catch(err) {
         res.status(400).json({error: err.message})
@@ -14,7 +16,7 @@ export const getAllOrders = async (req, res) => {
 // Funcion para obtener pedidos por ID
 export const getAllOrdersById = async (req, res) => {
     try {
-        const orders = await orderModel.findById(req.params.id);
+        const orders = await orderModel.findById(req.params.id).populate('hotel_id', 'name logo').populate('service_id', 'title description availableHours');
         res.json(orders)
     }catch(err) {
         res.status(400).json({error: err.message})
@@ -24,9 +26,32 @@ export const getAllOrdersById = async (req, res) => {
 // Funcion para agregar nuevos pedidos
 export async function addOrder (req, res) {
     try {
-        const order = new orderModel({...req.body});
+        const { hotel_id, service_id, room_number, note, status } = req.body;
+
+        // Verificar si el hotel existe
+        const hotel = await hotelModel.findById(hotel_id);
+        if (!hotel) {
+            return res.status(400).json({ error: "Hotel no encontrado" });
+        }
+
+        // Verificar si el servicio existe
+        const service = await serviceModel.findById(service_id);
+        if (!service) {
+            return res.status(400).json({ error: "Servicio no encontrado" });
+        }
+
+        // Crear un nuevo pedido
+        const order = new orderModel({
+            hotel_id,
+            service_id,
+            room_number,
+            note,
+            status
+        });
+
         const newOrder = await order.save();
         res.json(newOrder)
+        
     } catch(err) {
         res.status(400).json({error: err.message})
     }
