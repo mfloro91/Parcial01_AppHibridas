@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllHotels, addHotel, getAllHotelsById, editHotel, deleteHotel } from "../controllers/hotelController.js";
+import { getAllHotels, addHotel, getAllHotelsById, editHotel, deleteHotel, searchAllHotelsByUbication } from "../controllers/hotelController.js";
 
 const router = express.Router();
 
@@ -7,6 +7,9 @@ const router = express.Router();
 
 // Lista todos los hoteles (solo para superadmin)
 router.get('/', getAllHotels)
+
+// Buscar hotel por ciudad (solo para superadmin)
+router.get('/search', searchAllHotelsByUbication)
 
 // Ver detalle de un hotel por ID (solo para superadmin)
 router.get('/:id', getAllHotelsById)

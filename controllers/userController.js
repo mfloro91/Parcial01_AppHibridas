@@ -1,8 +1,9 @@
 import userModel from "../models/userModel.js";
+import hotelModel from "../models/hotelModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import hotelModel from "../models/hotelModel.js";
+
 
 dotenv.config();
 const secretKey = process.env.JWT_SECRET;
@@ -74,7 +75,7 @@ export async function loginUser (req, res) {
 // Funcion para obtener todos los usuarios
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await userModel.find().select('-password').populate('hotel_id', 'name logo');
+        const users = await userModel.find().select('-password').populate('hotel_id', 'name country city');
         res.json(users)
     } catch(err) {
         res.status(400).json({error: err.message})

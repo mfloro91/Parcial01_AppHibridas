@@ -53,3 +53,19 @@ export const deleteHotel = async (req, res) => {
     }
 }
 
+
+// Funcion para buscar hoteles por nombre de la ciudad
+export const searchAllHotelsByUbication = async (req, res) => {
+    try {
+        const {search} = req.query;
+        const hotels = await hotelModel.find({
+            $or: [
+                { city: { $regex: search, $options: 'i' } },
+                { country: { $regex: search, $options: 'i' } }
+            ]
+        });
+        res.json(hotels)
+    }catch(err) {
+        res.status(400).json({error: err.message})
+    }
+}

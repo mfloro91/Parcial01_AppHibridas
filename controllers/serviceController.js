@@ -4,7 +4,7 @@ import hotelModel from "../models/hotelModel.js";
 // Funcion para obtener todos los servicios
 export const getAllServices = async (req, res) => {
     try {
-        const services = await serviceModel.find().populate('hotel_id', 'name logo');
+        const services = await serviceModel.find().populate('hotel_id', 'name country city');
         res.json(services)
     } catch(err) {
         res.status(400).json({error: err.message})
@@ -15,7 +15,7 @@ export const getAllServices = async (req, res) => {
 // Funcion para obtener servicios por ID
 export const getAllServicesById = async (req, res) => {
     try {
-        const services = await serviceModel.findById(req.params.id).populate('hotel_id', 'name logo');
+        const services = await serviceModel.findById(req.params.id).populate('hotel_id', 'name country city');
         res.json(services)
     }catch(err) {
         res.status(400).json({error: err.message})

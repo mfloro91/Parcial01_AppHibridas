@@ -13,7 +13,14 @@ const hotelSchema = new mongoose.Schema( {
         type: String,
         required: false,
     },
-    languages: [{type: String}]
+    languages: [{type: String}],
+    country: {
+        type: String,
+        required: false,
+    }, city: {
+        type: String,
+        required: false,
+    }
 })
 
 export default mongoose.model('Hotel', hotelSchema);

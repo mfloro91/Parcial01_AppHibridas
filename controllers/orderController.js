@@ -5,7 +5,7 @@ import serviceModel from "../models/serviceModel.js";
 // Funcion para obtener todos los pedidos
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await orderModel.find().populate('hotel_id', 'name logo').populate('service_id', 'title description availableHours');
+        const orders = await orderModel.find().populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
         res.json(orders)
     } catch(err) {
         res.status(400).json({error: err.message})
@@ -16,7 +16,7 @@ export const getAllOrders = async (req, res) => {
 // Funcion para obtener pedidos por ID
 export const getAllOrdersById = async (req, res) => {
     try {
-        const orders = await orderModel.findById(req.params.id).populate('hotel_id', 'name logo').populate('service_id', 'title description availableHours');
+        const orders = await orderModel.findById(req.params.id).populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
         res.json(orders)
     }catch(err) {
         res.status(400).json({error: err.message})
