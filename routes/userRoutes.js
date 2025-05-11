@@ -2,7 +2,6 @@ import express from "express"
 import { getAllUsers, createUser, loginUser } from "../controllers/userController.js";
 import { authenticateJWT, authorizeRoles } from "../middlewares/authMiddleware.js";
 
-
 const router = express.Router();
 
 // Endpoints para usuarios

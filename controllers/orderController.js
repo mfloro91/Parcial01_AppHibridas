@@ -86,11 +86,14 @@ export const deleteOrder = async (req, res) => {
 // - Hotel + Habitación solicitante (puede ayudar a la facturación)
 export const searchOrdersByHotel = async (req, res) => {
     try {
-        const {status, hotel_id, room_number} = req.query;
+        //El hotel lo filtra del login - de acuerdo a qué hotel administras o en cuál te hospedas
+        const userHotel = req.user.hotel_id;
+
+        const {status, room_number} = req.query;
         
-        // Si no recibe status, entonces solo filtra por hotel - de hecho quiero que los admin vean las ordenes de su propio hotel por seguridad
+        // Si no recibe status ni numero de habitacion, entonces solo filtra por hotel - de hecho quiero que los admin vean las ordenes de su propio hotel por seguridad
         if (!status && !room_number) {
-            const orders = await orderModel.find({ hotel_id }).populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
+            const orders = await orderModel.find({ hotel_id: userHotel }).populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
         
         res.json(orders) 
 
@@ -100,7 +103,7 @@ export const searchOrdersByHotel = async (req, res) => {
             const orders = await orderModel.find({ 
                 $and: [
                     { status: { $regex: `^${status}$`, $options: 'i' } },
-                    { hotel_id } 
+                    { hotel_id: userHotel } 
                 ]
             }).sort({updatedAt: 1}).populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
             
@@ -112,7 +115,7 @@ export const searchOrdersByHotel = async (req, res) => {
             const orders = await orderModel.find({ 
                 $and: [
                     { room_number },
-                    { hotel_id } 
+                    { hotel_id: userHotel } 
                 ]
             }).sort({updatedAt: 1}).populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
             

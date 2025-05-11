@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', authenticateJWT, filterService)
 
 // Lista de todos los servicios ofrecidos por los hoteles (solo para superadmins)
-router.get('/all', authenticateJWT, authorizeRoles('superadmin'), getAllServices, )
+router.get('/all', authenticateJWT, authorizeRoles('superadmin'), getAllServices)
 
 // Obtener detalle del servicio
 router.get('/:id', authenticateJWT, getAllServicesById)

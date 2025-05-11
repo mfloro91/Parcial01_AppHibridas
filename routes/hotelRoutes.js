@@ -15,10 +15,10 @@ router.get('/search', authenticateJWT, authorizeRoles('superadmin'), searchAllHo
 // Ver detalle de un hotel por ID (solo para superadmin)
 router.get('/:id', authenticateJWT, authorizeRoles('superadmin'), getAllHotelsById)
 
-// Crear info relativa a un nuevo hotel (solo para admins)
-router.post('/', authenticateJWT, authorizeRoles('superadmin', 'admin'), addHotel);
+// Crear info relativa a un nuevo hotel (solo para superadmins)
+router.post('/', authenticateJWT, authorizeRoles('superadmin'), addHotel);
 
-// Editar un hotel existente (solo para admins)
+// Editar un hotel existente (los admins también pueden colaborar en la edición)
 router.put('/:id', authenticateJWT, authorizeRoles('superadmin', 'admin'), editHotel);
 
 // Elimina un hotel (solo para superadmins)

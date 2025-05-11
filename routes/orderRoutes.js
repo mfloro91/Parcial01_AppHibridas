@@ -6,12 +6,11 @@ const router = express.Router();
 
 // Endpoints para órdenes o pedidos de los huéspedes
 
-
-// Lista todas las solicitudes de los huespedes (para admins del hotel)
-router.get('/', authenticateJWT, authorizeRoles('superadmin', 'admin', 'staff'), getAllOrders)
-
 // Filtrar ordenes según hotel y teniendo en cuenta distintos filtros posibles: estado o habitación. Las ordena por antiguedad - primero las órdenes realizadas primeras y de mayor urgencia (solo para admins del hotel)
-router.get('/search', authenticateJWT, authorizeRoles('superadmin', 'admin', 'staff'), searchOrdersByHotel)
+router.get('/', authenticateJWT, authorizeRoles('superadmin', 'admin', 'staff'), searchOrdersByHotel)
+
+// Lista todas las solicitudes que los huespedes estan haciendo (solo superadmins tienen vista global de todos los hoteles)
+router.get('/all', authenticateJWT, authorizeRoles('superadmin'), getAllOrders)
 
 // Ver detalle de una solicitud (solo para admins)
 router.get('/:id', authenticateJWT, authorizeRoles('superadmin', 'admin', 'staff'), getAllOrdersById)
