@@ -70,3 +70,17 @@ export const deleteService = async (req, res) => {
     }
 }
 
+// Funcion para filtrar servicios por hotel
+export const filterService = async (req, res) => {
+    try {
+        const {hotel_id} = req.query;
+                
+        const services = await serviceModel.find({ hotel_id }).populate('hotel_id', 'name country city');
+                
+        res.json(services) 
+        
+    }catch(err) {
+        res.status(400).json({error: err.message})
+    }
+}
+

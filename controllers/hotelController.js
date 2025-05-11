@@ -54,7 +54,7 @@ export const deleteHotel = async (req, res) => {
 }
 
 
-// Funcion para buscar hoteles por nombre de la ciudad
+// Funcion para buscar hoteles por nombre - ubicación
 export const searchAllHotelsByUbication = async (req, res) => {
     try {
         const {search} = req.query;

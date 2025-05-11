@@ -1,5 +1,5 @@
 import express from "express"
-import { addOrder, deleteOrder, editOrderStatus, getAllOrders, getAllOrdersById } from "../controllers/orderController.js";
+import { addOrder, deleteOrder, editOrderStatus, getAllOrders, getAllOrdersById, searchOrdersByHotel } from "../controllers/orderController.js";
 import { authenticateJWT } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -9,6 +9,9 @@ const router = express.Router();
 
 // Lista todas las solicitudes de los huespedes (para admins del hotel)
 router.get('/', /*authenticateJWT,*/ getAllOrders)
+
+// Filtrar ordenes según hotel y teniendo en cuenta distintos filtros posibles: estado o habitación. Las ordena por antiguedad - primero las órdenes realizadas primeras y de mayor urgencia (solo para admins del hotel)
+router.get('/search', /*authenticateJWT,*/ searchOrdersByHotel)
 
 // Ver detalle de una solicitud (solo para admins)
 router.get('/:id', /*authenticateJWT,*/ getAllOrdersById)

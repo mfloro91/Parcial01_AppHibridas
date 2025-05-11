@@ -2,27 +2,34 @@ import mongoose, {Schema} from "mongoose";
 import hotelModel from "./hotelModel.js";
 import serviceModel from "./serviceModel.js";
 
-const orderSchema = new mongoose.Schema( {
+const orderSchema = new mongoose.Schema(
+  {
     hotel_id: {
-        type: Schema.Types.ObjectId, ref:'Hotel',
-        required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'Hotel',
+      required: true,
     },
     service_id: {
-        type: Schema.Types.ObjectId, ref:'Service',
-        required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'Service',
+      required: true,
     },
     room_number: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     note: {
-        type: String,
-        required: false,
+      type: String,
+      required: false,
     },
     status: {
-        type: String,
-        required: true,
-    }
-})
+      type: String,
+      required: true,
+      enum: ['pendiente', 'en proceso', 'completado'],
+    },
+  },
+  { timestamps: true }
+);
+
 
 export default mongoose.model('Order', orderSchema);

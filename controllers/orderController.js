@@ -80,3 +80,49 @@ export const deleteOrder = async (req, res) => {
     }
 }
 
+// Funcion para filtrar ordenes según:
+// - Hotel 
+// - Hotel + status de la orden - devuelve orden ascendente (ordenes más antigüas primero - son las de mayor urgencia)
+// - Hotel + Habitación solicitante (puede ayudar a la facturación)
+export const searchOrdersByHotel = async (req, res) => {
+    try {
+        const {status, hotel_id, room_number} = req.query;
+        
+        // Si no recibe status, entonces solo filtra por hotel - de hecho quiero que los admin vean las ordenes de su propio hotel por seguridad
+        if (!status && !room_number) {
+            const orders = await orderModel.find({ hotel_id }).populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
+        
+        res.json(orders) 
+
+        // Si se ingresa el status, entonces filtraré por status pero de todas maneras quiero que los admin del hotel solo puedan filtrar las ordenes de su hotel
+        } else if (!room_number) {
+
+            const orders = await orderModel.find({ 
+                $and: [
+                    { status: { $regex: `^${status}$`, $options: 'i' } },
+                    { hotel_id } 
+                ]
+            }).sort({updatedAt: 1}).populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
+            
+            res.json(orders)
+        
+        // Si se ingresa la habitación, filtraré los pedidos por habitación y por hotel (esto puede ayudar a métricas o facturación posterior a cada cliente)
+        } else if (!status) {
+
+            const orders = await orderModel.find({ 
+                $and: [
+                    { room_number },
+                    { hotel_id } 
+                ]
+            }).sort({updatedAt: 1}).populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
+            
+            res.json(orders)
+        }
+
+
+    }catch(err) {
+        res.status(400).json({error: err.message})
+    }
+}
+
+
