@@ -71,7 +71,6 @@ export async function loginUser (req, res) {
     }
 }
 
-
 // Funcion para obtener todos los usuarios
 export const getAllUsers = async (req, res) => {
     try {

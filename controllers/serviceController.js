@@ -70,15 +70,15 @@ export const deleteService = async (req, res) => {
     }
 }
 
-// Funcion para filtrar servicios por hotel
+// Funcion para filtrar servicios por hotel en el cual te hospedas (este dato viene en el token)
 export const filterService = async (req, res) => {
     try {
-        const {hotel_id} = req.query;
+        const userHotel = req.user.hotel_id;
                 
-        const services = await serviceModel.find({ hotel_id }).populate('hotel_id', 'name country city');
+        const services = await serviceModel.find({ hotel_id: userHotel }).populate('hotel_id', 'name country city');
                 
         res.json(services) 
-        
+
     }catch(err) {
         res.status(400).json({error: err.message})
     }

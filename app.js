@@ -5,7 +5,6 @@ import orderRoutes from "./routes/orderRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
-import { authenticateJWT } from "./middlewares/authMiddleware.js"
 
 dotenv.config();
 mongoose.connect(process.env.MONGODB_URI)
@@ -16,7 +15,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use('/hotels', authenticateJWT, hotelRoutes)
+app.use('/hotels', hotelRoutes)
 app.use('/services', serviceRoutes)
 app.use('/orders', orderRoutes)
 app.use('/users', userRoutes)
