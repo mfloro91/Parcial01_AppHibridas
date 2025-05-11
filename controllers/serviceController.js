@@ -33,6 +33,10 @@ export async function addService (req, res) {
             return res.status(400).json({error: "Hotel no encontrado"});
         }
 
+        if (!title || !availableHours) {
+        return res.status(400).send('El título y los horarios del servicio son obligatorios');
+        }
+
         const service = new serviceModel({
             hotel_id,
             title,

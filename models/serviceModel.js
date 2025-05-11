@@ -8,11 +8,11 @@ const serviceSchema = new mongoose.Schema( {
     },
     title: {
         type: String,
-        required: false,
+        required: true,
     },
     description: {
         type: String,
-        required: true,
+        required: false,
     },
     availableHours: {
         type: String, 

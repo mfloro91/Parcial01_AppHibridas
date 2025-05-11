@@ -11,7 +11,7 @@ const secretKey = process.env.JWT_SECRET;
 // Funcion para crear nuevo usuario
 export async function createUser (req, res) {
     try {
-        const {hotel_id, name, userName, email, role, password} = req.body;
+        const {hotel_id, name, userName, email, password} = req.body;
         
         if (!name || !userName || !email || !password) {
             return res.status(400).json({ error: "Todos los campos son obligatorios" });
@@ -23,16 +23,29 @@ export async function createUser (req, res) {
             return res.status(400).json({ error: "Hotel no encontrado" });
         }
 
+        // Verificar si el email ya está registrado
+        const existingUser = await userModel.findOne({ email });
+        if (existingUser) {
+            return res.status(409).json({ error: "El correo ya está registrado" });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         
-        const user = new userModel({hotel_id, name, userName, email, role, password: hashedPassword});
+        const user = new userModel({
+            hotel_id, 
+            name, 
+            userName, 
+            email, 
+            role: "user",
+            password: hashedPassword});
+        
         const newUser = await user.save();
         
         const {password:_, ...userWithoutPassword} = newUser.toObject();
         res.status(201).json(userWithoutPassword);
 
     } catch(err) {
-        res.status(400).json({error: err.message})
+        res.status(500).json({error: err.message})
     }
 } 
 
@@ -77,6 +90,18 @@ export const getAllUsers = async (req, res) => {
         const users = await userModel.find().select('-password').populate('hotel_id', 'name country city');
         res.json(users)
     } catch(err) {
+        res.status(400).json({error: err.message})
+    }
+}
+
+// Funcion para que superadmin edite los roles
+
+export const editRole = async (req, res) => {
+    const {role} = req.body;
+    try {
+        const userUpdated = await userModel.findByIdAndUpdate(req.params.id, { role }, {new: true});
+        res.json(userUpdated)
+    }catch(err) {
         res.status(400).json({error: err.message})
     }
 }

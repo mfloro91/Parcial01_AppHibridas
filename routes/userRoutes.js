@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllUsers, createUser, loginUser } from "../controllers/userController.js";
+import { getAllUsers, createUser, loginUser, editRole } from "../controllers/userController.js";
 import { authenticateJWT, authorizeRoles } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -14,5 +14,8 @@ router.post('/', createUser);
 
 // Login usuario
 router.post('/login', loginUser);
+
+// Editar los roles de un usuario (solo para superadmins)
+router.patch('/:id', authenticateJWT, authorizeRoles('superadmin'), editRole);
 
 export default router;

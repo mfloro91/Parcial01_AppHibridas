@@ -23,10 +23,17 @@ export const getAllHotelsById = async (req, res) => {
 
 // Funcion para agregar nuevos hoteles
 export async function addHotel (req, res) {
+    const {name, country, city} = req.body;
+    
+    if(!name || !country || !city) {
+        return res.status(400).json({error: err.message})
+    }
+
     try {
         const hotel = new hotelModel({...req.body});
         const newHotel = await hotel.save();
-        res.json(newHotel)
+        res.status(201).json(newHotel);
+
     } catch(err) {
         res.status(400).json({error: err.message})
     }

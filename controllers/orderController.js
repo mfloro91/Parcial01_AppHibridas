@@ -26,7 +26,7 @@ export const getAllOrdersById = async (req, res) => {
 // Funcion para agregar nuevos pedidos
 export async function addOrder (req, res) {
     try {
-        const { hotel_id, service_id, room_number, note, status } = req.body;
+        const { hotel_id, service_id, room_number, note } = req.body;
 
         // Verificar si el hotel existe
         const hotel = await hotelModel.findById(hotel_id);
@@ -40,17 +40,21 @@ export async function addOrder (req, res) {
             return res.status(400).json({ error: "Servicio no encontrado" });
         }
 
+        if (!room_number) {
+        return res.status(400).send('El número de la habitación es obligatorio');
+        }
+
         // Crear un nuevo pedido
         const order = new orderModel({
             hotel_id,
             service_id,
             room_number,
             note,
-            status
+            status: "pendiente"
         });
 
         const newOrder = await order.save();
-        res.json(newOrder)
+        res.satus(201).json(newOrder)
         
     } catch(err) {
         res.status(400).json({error: err.message})
