@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="./estilo.css">
+    <title>API hoteles</title>
+</head>
+
+<body class="bg-black text-white">
+
+    <header>
+        <nav class="navbar bg-black">
+            <div class="container-fluid">
+                <a class="" href="./index.html">
+                    HotelesAPI
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container-fluid pt-5">
+
+
+        <div class="row">
+            <nav class="d-none d-lg-block col-lg-3 d-md-block col-md-3 d-sm-none">
+
+                <div>
+                    <ul class="nav flex-column navLateral py-3">
+                        <li class="nav-item mt-2">
+                            <a class="nav-link active textNav" aria-current="page" href="./index.html">
+                                Introducción
+                            </a>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link active textNav  fs-5" aria-current="page" href="#endpointHotel">
+                                Hotels
+                            </a>
+                            <ul class="list-unstyled px-3">
+                                <li><a href="#hotelSchema"> Hotel Schema </a> </li>
+                                <li><a href="#listadoHoteles"> Get all hotels </a> </li>
+                                <li><a href="#busquedaHoteles"> Filter hotels </a></li>
+                                <li><a href="#hotelId">Get one hotel </a></li>
+                                <li><a href="#nuevoHotel">Create hotel</a></li>
+                                <li><a href="#editarHotel">Edit hotel</a></li>
+                                <li><a href="#eliminarHotel">Delete hotel</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link active textNav fs-5" aria-current="page" href="#endpointService">
+                                Services
+                            </a>
+                            <ul class="list-unstyled px-3">
+                                <li><a href="#serviceSchema"> Service Schema </a> </li>
+                                <li><a href="#todosServicios"> Get all services </a></li>
+                                <li><a href="#listadoServicios"> Filter service </a> </li>
+                                <li><a href="#servicioId">Get one service </a></li>
+                                <li><a href="#crearServicio">Create service</a></li>
+                                <li><a href="#editarServicio">Edit service</a></li>
+                                <li><a href="#eliminarServicio">Delete service</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link active textNav fs-5" aria-current="page" href="#endpointOrder">
+                                Orders
+                            </a>
+                            <ul class="list-unstyled px-3">
+                                <li><a href="#orderSchema"> Order Schema </a> </li>
+                                <li><a href="#pedidosTodos"> Get all orders </a></li>
+                                <li><a href="#listadoPedidos"> Filter & Order orders </a> </li>
+                                <li><a href="#pedidoId">Get one order </a></li>
+                                <li><a href="#crearPedido">Create order</a></li>
+                                <li><a href="#editarPedido">Edit order </a></li>
+                                <li><a href="#eliminarPedido">Delete order </a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link active textNav fs-5" aria-current="page" href="#endpointUser">
+                                Users
+                            </a>
+                            <ul class="list-unstyled px-3">
+                                <li><a href="#userSchema"> User Schema </a> </li>
+                                <li><a href="#usuariosTodos"> Get all users</a> </li>
+                                <li><a href="#crearUsuario">Create new user</a></li>
+                                <li><a href="#editarUsuario">Edit user role </a></li>
+                                <li><a href="#login">User Login </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <hr>
+                </div>
+            </nav>
+
+
+            <div class="col-sm-12 col-md-9 col-lg-9 px-4">
+
+                <h1>Documentación de la API</h1>
+                <h2 class="py-4">Introducción</h2>
+                <p class="d-block">Esta aplicación ha sido creada para ayudar a los hoteles a administrar los servicios
+                    brindados a los huespedes. </p>
+                <p> Comprando nuestra app, los hoteles podrán customizar la aplicación, cargando sus datos como así
+                    mismo información de los distintos servicios disponibles para los huéspedes. </p>
+                <p> Una vez customizada la app y dados de alta los servicios, los huespedes podrán empezar a hacer sus
+                    reservas, mejorando su estadía. Así mismo, los hoteles podrán gestionar la experiencia de los
+                    usuarios, mejorando y organizando la atención al cliente.</p>
+
+                <h2 class="py-4">Nuestra API</h2>
+                <p>Esta documentación te ayudará a familiarizarte con los recursos de la API de hoteles y te mostrará
+                    cómo realizar diferentes consultas.</p>
+                <p> Antes de comenzar, es super importante que sepas que <strong> de acuerdo al rol que tengas, nuestra
+                        aplicación te ofrecerá distintos accesos a la información.</strong></p>
+
+                <h3>Usuarios de test</h3>
+                <p>A fines educativos, se brindan los siguientes accesos que permiten testear los endpoints. </p>
+                <p class="fs-5">Usuario con rol superadmin:</p>
+                <ul>
+                    <li>Email: equipo@hotelapp.com</li>
+                    <li>Password: supersecure1407</li>
+                </ul>
+                <p class="fs-5">Usuario con rol admin:</p>
+                <ul>
+                    <li>Email: ana@hoteloasis.com</li>
+                    <li>Password: admin123</li>
+                </ul>
+                <p class="fs-5">Usuario con rol user:</p>
+                <ul>
+                    <li>Email: xx</li>
+                    <li>Password: xx</li>
+                </ul>
+
+
+                <h3 id="endpointHotel">Hotels</h3>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="hotelSchema">Hotel Schema </h4>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>int</td>
+                                <td>El ID del hotel (es automático).</td>
+                            </tr>
+                            <tr>
+                                <td>name</td>
+                                <td>string</td>
+                                <td>El nombre del hotel.</td>
+                            </tr>
+                            <tr>
+                                <td>logo</td>
+                                <td>string</td>
+                                <td>El logo que utiliza el hotel.</td>
+                            </tr>
+                            <tr>
+                                <td>description</td>
+                                <td>string</td>
+                                <td>Una breve descripción o slogan.</td>
+                            </tr>
+                            <tr>
+                                <td>languages</td>
+                                <td>array(string)</td>
+                                <td>Lenguajes a los que deberá traducirse la interfaz.</td>
+                            </tr>
+                            <tr>
+                                <td>country</td>
+                                <td>string</td>
+                                <td>País donde se ubica el hotel.</td>
+                            </tr>
+                            <tr>
+                                <td>city</td>
+                                <td>string</td>
+                                <td>Ciudad o localidad en la que se ubica el hotel.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="listadoHoteles">Get all hotels: listado de hoteles </h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET /hotels
+                    </p>
+                    <p> <strong> Funcionalidad: </strong> Es un listado de todos los hoteles, solo disponible para
+                        superadmin. Esto permite al equipo conocer todos los clientes u hoteles que han comprado la
+                        app. </p>
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/hotels
+                        
+                        [
+                            {
+                                "_id": "6649189a5c8e4a001fa3a001",
+                                "name": "Hotel Oasis",
+                                "logo": "https://example.com/logos/oasislogo.png",
+                                "description": "Un refugio urbano con spa, piscina y gastronomía internacional.",
+                                "languages": [
+                                    "es",
+                                    "en",
+                                    "fr"
+                                ],
+                                "country": "Argentina",
+                                "city": "Buenos Aires"
+                            }
+                        ]
+                    </code>
+                    </pre>
+                </div>
+
+
+
+
+                <div class="fondo">
+                    <h4 class="py-1" id="busquedaHoteles">Filter Hotels: Búsqueda por ubicación</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /hotels/search
+                    </p>
+                    <p> <strong> Funcionalidad: </strong> Los superadmin podrán buscar los hoteles según País o Ciudad.
+                        Ingresando en el query params un campo de texto, arrojará todos los resultados que incluyan
+                        dicho
+                        texto. </p>
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/hotels/search?search=br
+                        
+                        [
+                            {
+                                "_id": "6649189a5c8e4a001fa3a003",
+                                "name": "Sol & Arena Resort",
+                                "logo": "https://example.com/logos/solarena.png",
+                                "description": "Resort frente al mar ideal para familias y eventos.",
+                                "languages": [
+                                    "es",
+                                    "pt",
+                                    "en"
+                                ],
+                                "country": "Brasil",
+                                "city": "Florianópolis"
+                            }
+                        ]
+                    </code>
+                    </pre>
+
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="hotelId">Get one hotel: filtro por ID</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /hotels/:id
+                    </p>
+                    <p> <strong> Funcionalidad: </strong> Los superadmin podrán buscar los hoteles según su ID, para
+                        visualizar más detalle de los mismos. Para la búsqueda, basta con que ingreses el ID en el
+                        query.</p>
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/hotels/6649189a5c8e4a001fa3a002
+                        
+                        [
+                            {
+                                "_id": "6649189a5c8e4a001fa3a002",
+                                "name": "Montaña Verde",
+                                "logo": "https://example.com/logos/montana.png",
+                                "description": "Cabañas boutique en la naturaleza con atención personalizada.",
+                                "languages": [
+                                    "es",
+                                    "en"
+                                ],
+                                "country": "Chile",
+                                "city": "Pucón"
+                            }
+                        ]
+                    </code>
+                    </pre>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="nuevoHotel">Create hotel: creación nuevo hotel</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST /hotels
+                    </p>
+                    <p> <strong> Funcionalidad: </strong> Los superadmin podrán crear un nuevo hotel completando ciertos
+                        campos, mencionados a continuación. Los campos que se listan con un * son considerados
+                        obligatorios. </p>
+                    <p>Campos a ingresar en el body:</p>
+                    <ul>
+                        <li>Name*</li>
+                        <li>Logo</li>
+                        <li>Languages (array)</li>
+                        <li>Country*</li>
+                        <li>City*</li>
+                    </ul>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        POST localhost:3000/hotels
+                        
+                        // Body JSON:
+
+                       {
+                            "name": "Los arcos",
+                            "logo": "https://example.com/logos/arcos.png",
+                            "description": "Edificio de departamentos temporarios.",
+                            "languages": [
+                                "es",
+                                "en"
+                            ],
+                            "country": "Uruguay",
+                            "city": "Montevideo"
+                        }
+
+                    </code>
+                    </pre>
+
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="editarHotel">Edit hotel: editando hotel existente</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint PUT
+                        /hotels/:id
+                    </p>
+                    <p> <strong> Funcionalidad: </strong> Una vez que el superadmin crea el hotel, el administrador del
+                        mismo tendrá permisos para
+                        editar
+                        información
+                        disponible.</p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        PUT localhost:3000/hotels/6649189a5c8e4a001fa3a002
+
+                        // Body JSON:
+
+                        {
+                            "languages": [
+                                "es"
+                            ]
+                        }
+
+                    </code>
+                    </pre>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="eliminarHotel">Delete hotel: eliminar hotel existente</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint DELETE
+                        /hotels/:id
+                    </p>
+                    <p> <strong> Funcionalidad: </strong> Solo los superadmin podrán eliminar clientes de su cartera.
+                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        DELETE localhost:3000/hotels/682274971462c2e1cd694bc9
+                    </code>
+                    </pre>
+                </div>
+
+
+                <h3 class="py-4" id="endpointService">Services</h3>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="listadoServicios">Listado servicios por hotel</h4>
+                    <p> <strong> Funcionalidad: </strong> Es un listado de todos los servicios brindados en tu hotel de
+                        pertenencia. Esto es posible
+                        ya que, una
+                        vez
+                        que el usuario esté logeado, ya sea admin, staff o user, toma el ID del hotel al cual se
+                        asocia su
+                        cuenta.
+                        De esta manera, aplica un filtro y solo te deja visualizar la oferta de servicios ofrecidos
+                        en tu hotel.
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET /services
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="todosServicios">Listado de todos los servicios ofrecidos</h4>
+                    <p> <strong> Funcionalidad: </strong> Es un listado de todos los servicios, solo disponible para
+                        roles "superadmin".
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /services/all
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="servicioId">Service por ID</h4>
+                    <p> <strong> Funcionalidad: </strong> Cualquier usuario logueado podrá ver más detalle de un
+                        servicio si conoce su ID. Deberás ingresar el ID en el query.
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /services/:id
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="crearServicio">Crear un nuevo servicio</h4>
+                    <p> <strong> Funcionalidad: </strong> Los superadmin, admin o miembros del staff podrán crear un
+                        nuevo servicio, así mismo como
+                        editarlo o
+                        eliminarlo. </p>
+
+                    <ul> Campos a ingresar en el body:
+                        <li>Hostel_id* (permite establecer una relación entre el servicio y el hotel donde se brinda
+                            el mismo)
+                        </li>
+                        <li>Title*</li>
+                        <li>Description</li>
+                        <li>Available Hours*</li>
+                    </ul>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST
+                        /services
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="editarServicio">Editar un servicio existente</h4>
+                    <p> <strong> Funcionalidad: </strong> Solo un admin, miembro del staff o superadmin podrán editar
+                        los servicios brindados.
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint PUT
+                        /services/:id
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="eliminarServicio">Eliminar un servicio existente</h4>
+                    <p> <strong> Funcionalidad: </strong> Solo un admin, miembro del staff o superadmin podrán eliminar
+                        los servicios brindados.
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint DELETE
+                        /services/:id
+                    </p>
+                </div>
+
+
+                <h3 class="py-4" id="endpointOrder">Endpoints Oders</h3>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="listadoPedidos">Visualizar pedidos y filtrar por estado o habitación</h4>
+                    <p> <strong> Funcionalidad: </strong> Es un listado de todos los pedidos realizados por los
+                        huespedes y solo pueden acceder a
+                        dicha
+                        información
+                        los administradores o miembros del staff. Tiene un filtro por hotel, que se toma de los datos
+                        del
+                        usuario al hacer login. Posteriormente los admins podrán indicar en el query el número de la
+                        habitación a filtrar (room_number) o el estado del pedido (status). Por último, la información
+                        se ordenará de manera ascendente, mostrando los pedidos más antiguos o prioritarios primero.
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /orders
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="pedidosTodos">Listado de todos los pedidos realizados</h4>
+                    <p> <strong> Funcionalidad: </strong> Es un listado de todos los pedidos, solo disponible para roles
+                        "superadmin".
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /orders/all
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="pedidoId">Detalles de un pedido</h4>
+                    <p> <strong> Funcionalidad: </strong> Podrás acceder al detalle del servicio si sos admin o staff.
+                        Para la búsqueda, basta que ingreses el ID en el query.
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /oders/:id
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="crearPedido">Crear un nuevo pedido</h4>
+                    <p> <strong> Funcionalidad: </strong> Cualquier usuario final podrá crear un pedido.
+                    </p>
+                    <ul> Campos a ingresar en el body:
+                        <li>Hostel_id* (permite establecer una relación entre el pedido y el hotel donde se solicitó
+                            el mismo - a futuro será un valor automático)
+                        </li>
+                        <li>Service_id* (permite establecer una relación entre el pedido y el tipo de servicio
+                            solicitado) </li>
+                        <li>Room_number*</li>
+                        <li>Note</li>
+                        <li>Status (no es necesario que el usuario cargue esta info, por defecto el status siempre
+                            será
+                            "pendiente"
+                            al crear una nueva orden)</li>
+                    </ul>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST /orders
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="editarPedido">Editar el estado de un pedido</h4>
+                    <p> <strong> Funcionalidad: </strong> Podrás editar el estado del pedido si estás logueado como
+                        superadmin, admin o staff. En el body del request, deberás indicar el nuevo estado, el cual
+                        puede ser "pendiente", "completado", "en proceso".
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint PATCH
+                        /orders/:id
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="eliminarPedido">Eliminar un pedido existente</h4>
+                    <p> <strong> Funcionalidad: </strong> Podrás eliminar un pedido existente logueandote como admin o
+                        staff.
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint DELETE
+                        /orders/:id
+                    </p>
+                </div>
+
+                <h3 class="py-4" id="endpointUser">Endpoints Users</h3>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="usuariosTodos">Listado de todos los usuarios</h4>
+                    <p> <strong> Funcionalidad: </strong>Podrás ver un listado de todos los usuarios logueandote como
+                        super admin.
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET /users
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="crearUsuario">Crear un nuevo usuario</h4>
+                    <p> <strong> Funcionalidad: </strong>Permite crear nuevos usuarios. Por defecto el rol al crear un
+                        nuevo usuario siemrpe será "user". Si sos administrador o staff de un hotel, deberás esperar que
+                        un superadmin te cambie los permisos.
+                    </p>
+                    <ul> Campos a ingresar en el body:
+                        <li>Hotel_id* (permite establecer una relación entre el usuario y el hotel donde se
+                            hospeda/trabaja - a futuro debería poder completarse automáticamente - repensar login de
+                            usuarios finales)
+                        </li>
+                        <li>Name*</li>
+                        <li>userName</li>
+                        <li>Email*</li>
+                        <li>Role (no es necesario que el usuario cargue esta info, por defecto el rol siempre será
+                            "user" al
+                            crear
+                            una nuevo usuario)</li>
+                        <li>Password*</li>
+                    </ul>
+
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST /users
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="login">Login del usuario</h4>
+                    <p> <strong> Funcionalidad: </strong>Permite a los usuarios loguearse usando sus credenciales.
+                        Generá un token y devuelve información del usuario tales como el hotel_id o el rol asignado.
+                        Para ingresar deberás colocar en el body de la petición el email y la password.
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST
+                        /users/login
+                    </p>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="editarUsuario">Editar el rol del usuario</h4>
+                    <p> <strong> Funcionalidad: </strong> Por seguridad, siempre que se cree un nuevo usuario por
+                        defecto siempre tendrá el rol "user".
+                        Sin
+                        embargo,
+                        los superadmin tienen la posibilidad de editar el rol del usuario, para asignar admins o
+                        miembros del
+                        staff
+                        de un hotel. En el body deberás ingresar el nuevo "role", el cual puede ser "admin", "staff" o
+                        "superadmin".
+                    </p>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint PATCH
+                        /users/:id
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
