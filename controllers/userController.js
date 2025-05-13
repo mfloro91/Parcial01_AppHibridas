@@ -98,6 +98,11 @@ export const getAllUsers = async (req, res) => {
 
 export const editRole = async (req, res) => {
     const {role} = req.body;
+
+    if (!role || !["user", "admin", "superadmin", "staff"].includes(role)) {
+        return res.status(400).send("El rol es obligatorio y debe ser uno de los siguientes: user, admin, superadmin, staff");
+    }
+    
     try {
         const userUpdated = await userModel.findByIdAndUpdate(req.params.id, { role }, {new: true});
         res.json(userUpdated)
