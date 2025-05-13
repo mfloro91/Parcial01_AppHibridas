@@ -32,7 +32,7 @@
                 <div>
                     <ul class="nav flex-column navLateral py-3">
                         <li class="nav-item mt-2">
-                            <a class="nav-link active textNav" aria-current="page" href="./index.html">
+                            <a class="nav-link active textNav fs-5" aria-current="page" href="./index.html">
                                 Introducción
                             </a>
                         </li>
@@ -129,8 +129,8 @@
                 </ul>
                 <p class="fs-5">Usuario con rol user:</p>
                 <ul>
-                    <li>Email: xx</li>
-                    <li>Password: xx</li>
+                    <li>Email: flor@gmail.com</li>
+                    <li>Password: guest123 </li>
                 </ul>
 
 
@@ -268,20 +268,18 @@
                     <code>
                         GET localhost:3000/hotels/6649189a5c8e4a001fa3a002
                         
-                        [
-                            {
-                                "_id": "6649189a5c8e4a001fa3a002",
-                                "name": "Montaña Verde",
-                                "logo": "https://example.com/logos/montana.png",
-                                "description": "Cabañas boutique en la naturaleza con atención personalizada.",
-                                "languages": [
-                                    "es",
-                                    "en"
-                                ],
-                                "country": "Chile",
-                                "city": "Pucón"
+                        {
+                            "_id": "6649189a5c8e4a001fa3a002",
+                            "name": "Montaña Verde",
+                            "logo": "https://example.com/logos/montana.png",
+                             "description": "Cabañas boutique en la naturaleza con atención personalizada.",
+                            "languages": [
+                                "es",
+                                "en"
+                            ],
+                            "country": "Chile",
+                            "city": "Pucón"
                             }
-                        ]
                     </code>
                     </pre>
                 </div>
@@ -371,10 +369,85 @@
                 </div>
 
 
-                <h3 class="py-4" id="endpointService">Services</h3>
+                <h3 id="endpointService">Services</h3>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="listadoServicios">Listado servicios por hotel</h4>
+                    <h4 class="py-1" id="serviceSchema">Service Schema </h4>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>int</td>
+                                <td>El ID del servicio (es automático).</td>
+                            </tr>
+                            <tr>
+                                <td>hotel_id</td>
+                                <td>ObjectId</td>
+                                <td>El ID del hotel donde se brinda el servicio.</td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>string</td>
+                                <td>El título del servicio</td>
+                            </tr>
+                            <tr>
+                                <td>description</td>
+                                <td>string</td>
+                                <td>Una breve descripción del servicio.</td>
+                            </tr>
+                            <tr>
+                                <td>availableHours</td>
+                                <td>string</td>
+                                <td>Banda horaria en la cual se brinda el servicio.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="todosServicios">Get all services: lista todos los servicios ofrecidos</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /services/all
+                    </p>
+                    <p> <strong> Funcionalidad: </strong> Es un listado de todos los servicios, solo disponible para
+                        roles superadmin.
+                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/services/all
+
+                        {
+                             "_id": "66491aa75c8e4a001fa3b001",
+                            "hotel_id": {
+                                "_id": "6649189a5c8e4a001fa3a001",
+                                "name": "Hotel Oasis",
+                                "country": "Argentina",
+                                "city": "Buenos Aires"
+                            },
+                            "title": "Spa & Masajes",
+                            "description": "Sesiones de relajación con aceites esenciales.",
+                            "availableHours": "10:00 - 20:00"
+                        }
+
+                    </code>
+                    </pre>
+
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="listadoServicios">Filter service: lista servicios por hotel</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET /services
+                    </p>
                     <p> <strong> Funcionalidad: </strong> Es un listado de todos los servicios brindados en tu hotel de
                         pertenencia. Esto es posible
                         ya que, una
@@ -382,78 +455,277 @@
                         que el usuario esté logeado, ya sea admin, staff o user, toma el ID del hotel al cual se
                         asocia su
                         cuenta.
-                        De esta manera, aplica un filtro y solo te deja visualizar la oferta de servicios ofrecidos
+                        De esta manera, aplica un filtro automático y solo te deja visualizar la oferta de servicios
+                        ofrecidos
                         en tu hotel.
                     </p>
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET /services
-                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/services
+                        
+                        [
+                            {
+                                "_id": "66491aa75c8e4a001fa3b001",
+                                "hotel_id": {
+                                    "_id": "6649189a5c8e4a001fa3a001",
+                                    "name": "Hotel Oasis",
+                                    "country": "Argentina",
+                                    "city": "Buenos Aires"
+                                },
+                                "title": "Spa & Masajes",
+                                "description": "Sesiones de relajación con aceites esenciales.",
+                                "availableHours": "10:00 - 20:00"
+                            },
+                            {
+                                "_id": "66491aa75c8e4a001fa3b002",
+                                "hotel_id": {
+                                    "_id": "6649189a5c8e4a001fa3a001",
+                                    "name": "Hotel Oasis",
+                                    "country": "Argentina",
+                                    "city": "Buenos Aires"
+                                },
+                                "title": "Servicio a la habitación",
+                                "description": "Pedidos gastronómicos desde la habitación.",
+                                "availableHours": "08:00 - 23:00"
+                            }
+                        ]
+                    </code>
+                    </pre>
                 </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="todosServicios">Listado de todos los servicios ofrecidos</h4>
-                    <p> <strong> Funcionalidad: </strong> Es un listado de todos los servicios, solo disponible para
-                        roles "superadmin".
-                    </p>
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
-                        /services/all
-                    </p>
-                </div>
-
-                <div class="fondo">
-                    <h4 class="py-1" id="servicioId">Service por ID</h4>
-                    <p> <strong> Funcionalidad: </strong> Cualquier usuario logueado podrá ver más detalle de un
-                        servicio si conoce su ID. Deberás ingresar el ID en el query.
-                    </p>
+                    <h4 class="py-1" id="servicioId">Get one service: filtra por ID</h4>
                     <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
                         /services/:id
                     </p>
+                    <p> <strong> Funcionalidad: </strong> Cualquier usuario logueado podrá ver más detalle de un
+                        servicio si conoce su ID. Deberás ingresar el ID en el query.
+                    </p>
+
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/services/66491aa75c8e4a001fa3b001
+                        
+                        {
+                            "_id": "66491aa75c8e4a001fa3b001",
+                            "hotel_id": {
+                                "_id": "6649189a5c8e4a001fa3a001",
+                                "name": "Hotel Oasis",
+                                "country": "Argentina",
+                                "city": "Buenos Aires"
+                            },
+                            "title": "Spa & Masajes",
+                            "description": "Sesiones de relajación con aceites esenciales.",
+                            "availableHours": "10:00 - 20:00"
+                        }
+                    </code>
+                    </pre>
+
                 </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="crearServicio">Crear un nuevo servicio</h4>
+                    <h4 class="py-1" id="crearServicio">Create service: crear nuevo servicio</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST
+                        /services
+                    </p>
                     <p> <strong> Funcionalidad: </strong> Los superadmin, admin o miembros del staff podrán crear un
                         nuevo servicio, así mismo como
                         editarlo o
                         eliminarlo. </p>
-
-                    <ul> Campos a ingresar en el body:
-                        <li>Hostel_id* (permite establecer una relación entre el servicio y el hotel donde se brinda
+                    <p>Campos a ingresar en el body:</p>
+                    <ul>
+                        <li>Hotel_id* (permite establecer una relación entre el servicio y el hotel donde se brinda
                             el mismo)
                         </li>
                         <li>Title*</li>
                         <li>Description</li>
                         <li>Available Hours*</li>
                     </ul>
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST
-                        /services
-                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        POST localhost:3000/services
+                        
+                        // Body JSON:
+
+                       {
+                            "hotel_id": "6649189a5c8e4a001fa3a001",
+                            "title": "Cuidado de niños",
+                            "description": "Espacios personalizados, para que los peques se diviertan y los adultos puedan desconectar.",
+                            "availableHours": "10:00 - 20:00"
+                        }
+
+                    </code>
+                    </pre>
+
                 </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="editarServicio">Editar un servicio existente</h4>
-                    <p> <strong> Funcionalidad: </strong> Solo un admin, miembro del staff o superadmin podrán editar
-                        los servicios brindados.
-                    </p>
+                    <h4 class="py-1" id="editarServicio">Edit service: editar un servicio existente</h4>
                     <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint PUT
                         /services/:id
                     </p>
+                    <p> <strong> Funcionalidad: </strong> Solo un admin, miembro del staff o superadmin podrán editar
+                        los servicios brindados.
+                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        PUT localhost:3000/services/6822881334e0d1b2a704d08e
+
+                        // Body JSON:
+
+                        {
+                            "availableHours": "10:00 - 23:00"
+                        }
+
+                    </code>
+                    </pre>
+
                 </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="eliminarServicio">Eliminar un servicio existente</h4>
-                    <p> <strong> Funcionalidad: </strong> Solo un admin, miembro del staff o superadmin podrán eliminar
-                        los servicios brindados.
-                    </p>
+                    <h4 class="py-1" id="eliminarServicio"> Delete service: eliminar un servicio existente</h4>
                     <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint DELETE
                         /services/:id
                     </p>
+                    <p> <strong> Funcionalidad: </strong> Solo un admin, miembro del staff o superadmin podrán eliminar
+                        los servicios brindados.
+                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        DELETE localhost:3000/services/6822881334e0d1b2a704d08e
+                    </code>
+                    </pre>
+
                 </div>
 
 
-                <h3 class="py-4" id="endpointOrder">Endpoints Oders</h3>
+                <h3 id="endpointOrder"> Orders</h3>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="listadoPedidos">Visualizar pedidos y filtrar por estado o habitación</h4>
+                    <h4 class="py-1" id="orderSchema">Order Schema </h4>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>int</td>
+                                <td>El ID del pedido (es automático).</td>
+                            </tr>
+                            <tr>
+                                <td>hotel_id</td>
+                                <td>ObjectId</td>
+                                <td>El ID del hotel donde se realiza el pedido.</td>
+                            </tr>
+                            <tr>
+                                <td>service_id</td>
+                                <td>ObjectId</td>
+                                <td>El ID del servicio sobre el cual se solicita un pedido.</td>
+                            </tr>
+                            <tr>
+                                <td>room_number</td>
+                                <td>number</td>
+                                <td>El número de habitación del huesped.</td>
+                            </tr>
+                            <tr>
+                                <td>note</td>
+                                <td>string</td>
+                                <td>Se pueden agregar notas al pedido o reserva.</td>
+                            </tr>
+                            <tr>
+                                <td>status</td>
+                                <td>string</td>
+                                <td>El status del pedido ('Pendiente' (valor por defecto), 'En proceso', 'Completado').
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="fondo">
+
+                    <h4 class="py-1" id="pedidosTodos">Get all orders: listado todos los pedidos realizados</h4>
+
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /orders/all
+                    </p>
+                    <p> <strong> Funcionalidad: </strong> Es un listado de todos los pedidos, solo disponible para roles
+                        superadmin.
+                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/orders/all
+
+                    [
+                        {
+                            "_id": "66491c345c8e4a001fa3c001",
+                            "hotel_id": {
+                                "_id": "6649189a5c8e4a001fa3a001",
+                                "name": "Hotel Oasis",
+                                "country": "Argentina",
+                                "city": "Buenos Aires"
+                            },
+                            "service_id": {
+                                "_id": "66491aa75c8e4a001fa3b002",
+                                "title": "Servicio a la habitación",
+                                "description": "Pedidos gastronómicos desde la habitación.",
+                                "availableHours": "08:00 - 23:00"
+                            },
+                            "room_number": 205,
+                            "note": "Sin cebolla en el sándwich, por favor.",
+                            "status": "en proceso",
+                            "updatedAt": "2025-05-11T15:47:48.218Z"
+                        },
+                        {
+                            "_id": "66491c345c8e4a001fa3c002",
+                            "hotel_id": {
+                                "_id": "6649189a5c8e4a001fa3a002",
+                                "name": "Montaña Verde",
+                                "country": "Chile",
+                                "city": "Pucón"
+                            },
+                            "service_id": {
+                                "_id": "66491aa75c8e4a001fa3b003",
+                                "title": "Excursiones guiadas",
+                                "description": "Trekking y recorridos por la reserva natural.",
+                                "availableHours": "09:00 - 17:00"
+                            },
+                            "room_number": 101,
+                            "note": "¿Hay caminatas para adultos mayores?",
+                            "status": "completado",
+                            "updatedAt": "2025-05-11T15:48:33.616Z"
+                        }
+                    ]
+                    </code>
+                    </pre>
+
+                </div>
+
+
+                <div class="fondo">
+                    <h4 class="py-1" id="listadoPedidos">Filter & Order orders: visualizar pedidos y filtrarlos por
+                        estado o habitación</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
+                        /orders
+                    </p>
                     <p> <strong> Funcionalidad: </strong> Es un listado de todos los pedidos realizados por los
                         huespedes y solo pueden acceder a
                         dicha
@@ -464,37 +736,103 @@
                         habitación a filtrar (room_number) o el estado del pedido (status). Por último, la información
                         se ordenará de manera ascendente, mostrando los pedidos más antiguos o prioritarios primero.
                     </p>
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
-                        /orders
-                    </p>
+
+                    <p>Sin aplicar ningún query adicional, se aplica un filtro automático de acuerdo al hotel asociado a
+                        mi perfil: </p>
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/orders
+                        
+                        [
+                            {
+                                "_id": "66491c345c8e4a001fa3c001",
+                                "hotel_id": {
+                                    "_id": "6649189a5c8e4a001fa3a001",
+                                    "name": "Hotel Oasis",
+                                    "country": "Argentina",
+                                    "city": "Buenos Aires"
+                                },
+                                "service_id": {
+                                    "_id": "66491aa75c8e4a001fa3b002",
+                                    "title": "Servicio a la habitación",
+                                    "description": "Pedidos gastronómicos desde la habitación.",
+                                    "availableHours": "08:00 - 23:00"
+                                },
+                                "room_number": 205,
+                                "note": "Sin cebolla en el sándwich, por favor.",
+                                "status": "en proceso",
+                                "updatedAt": "2025-05-11T15:47:48.218Z"
+                            }
+                        ]
+                    </code>
+                    </pre>
+
+                    <p>Aplicando filtro por número de cuarto: </p>
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/orders?room_number=205
+                    </code>
+                    </pre>
+
+                    <p>Aplicando filtro por status: </p>
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        localhost:3000/orders?status=pendiente
+                    </code>
+                    </pre>
                 </div>
 
-                <div class="fondo">
-                    <h4 class="py-1" id="pedidosTodos">Listado de todos los pedidos realizados</h4>
-                    <p> <strong> Funcionalidad: </strong> Es un listado de todos los pedidos, solo disponible para roles
-                        "superadmin".
-                    </p>
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
-                        /orders/all
-                    </p>
-                </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="pedidoId">Detalles de un pedido</h4>
-                    <p> <strong> Funcionalidad: </strong> Podrás acceder al detalle del servicio si sos admin o staff.
-                        Para la búsqueda, basta que ingreses el ID en el query.
-                    </p>
+
+                    <h4 class="py-1" id="pedidoId">Get one order: ver detalles de un pedido</h4>
                     <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET
                         /oders/:id
                     </p>
+                    <p> <strong> Funcionalidad: </strong> Podrás acceder al detalle del servicio si sos admin o staff.
+                        Para la búsqueda, basta que ingreses el ID en el query.
+                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/orders/66491c345c8e4a001fa3c004
+                        
+                        {
+                            "_id": "66491c345c8e4a001fa3c004",
+                            "hotel_id": {
+                                "_id": "6649189a5c8e4a001fa3a001",
+                                "name": "Hotel Oasis",
+                                "country": "Argentina",
+                                "city": "Buenos Aires"
+                            },
+                            "service_id": {
+                                "_id": "66491aa75c8e4a001fa3b001",
+                                "title": "Spa & Masajes",
+                                "description": "Sesiones de relajación con aceites esenciales.",
+                                "availableHours": "10:00 - 20:00"
+                            },
+                            "room_number": 103,
+                            "note": "Masaje descontracturante, si es posible.",
+                            "status": "pendiente",
+                            "updatedAt": "2025-05-11T15:50:14.162Z"
+                        }
+
+                    </code>
+                    </pre>
                 </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="crearPedido">Crear un nuevo pedido</h4>
+                    <h4 class="py-1" id="crearPedido">Create order: crea un nuevo pedido</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST /orders
+                    </p>
                     <p> <strong> Funcionalidad: </strong> Cualquier usuario final podrá crear un pedido.
                     </p>
                     <ul> Campos a ingresar en el body:
-                        <li>Hostel_id* (permite establecer una relación entre el pedido y el hotel donde se solicitó
+                        <li>Hotel_id* (permite establecer una relación entre el pedido y el hotel donde se solicitó
                             el mismo - a futuro será un valor automático)
                         </li>
                         <li>Service_id* (permite establecer una relación entre el pedido y el tipo de servicio
@@ -506,49 +844,187 @@
                             "pendiente"
                             al crear una nueva orden)</li>
                     </ul>
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST /orders
-                    </p>
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        POST localhost:3000/orders
+                        
+                        // Body JSON:
+
+                        {
+                            "hotel_id": "6649189a5c8e4a001fa3a001",
+                            "service_id": "66491aa75c8e4a001fa3b001",
+                            "room_number": 5,
+                            "note": "Tengo presión baja"
+                        }
+
+                    </code>
+                    </pre>
                 </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="editarPedido">Editar el estado de un pedido</h4>
+
+                    <h4 class="py-1" id="editarPedido">Edit order: edita el estado de un pedido</h4>
+
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint PATCH
+                        /orders/:id
+                    </p>
+
                     <p> <strong> Funcionalidad: </strong> Podrás editar el estado del pedido si estás logueado como
                         superadmin, admin o staff. En el body del request, deberás indicar el nuevo estado, el cual
                         puede ser "pendiente", "completado", "en proceso".
                     </p>
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint PATCH
-                        /orders/:id
-                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        PATCH localhost:3000/orders/682295b52350c322db70f45e
+
+                        // Body JSON:
+
+                        {
+                            "status": "Completado"
+                        }
+
+                    </code>
+                    </pre>
                 </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="eliminarPedido">Eliminar un pedido existente</h4>
-                    <p> <strong> Funcionalidad: </strong> Podrás eliminar un pedido existente logueandote como admin o
-                        staff.
-                    </p>
+                    <h4 class="py-1" id="eliminarPedido">Delete order: eliminar un pedido existente (función en
+                        revisión)</h4>
+
                     <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint DELETE
                         /orders/:id
                     </p>
+
+                    <p> <strong> Funcionalidad: </strong> Podrás eliminar un pedido existente logueandote como admin o
+                        staff.
+                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        DELETE localhost:3000/orders/682295b52350c322db70f45e
+                    </code>
+                    </pre>
+
                 </div>
 
-                <h3 class="py-4" id="endpointUser">Endpoints Users</h3>
+                <h3 id="endpointUser">Users</h3>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="usuariosTodos">Listado de todos los usuarios</h4>
-                    <p> <strong> Funcionalidad: </strong>Podrás ver un listado de todos los usuarios logueandote como
-                        super admin.
-                    </p>
+                    <h4 class="py-1" id="userSchema">User Schema </h4>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>int</td>
+                                <td>El ID del user (es automático).</td>
+                            </tr>
+                            <tr>
+                                <td>hotel_id</td>
+                                <td>ObjectId</td>
+                                <td>El ID del hotel donde se hospeda el huesped (re-pensar cómo se asigna).</td>
+                            </tr>
+                            <tr>
+                                <td>name</td>
+                                <td>string</td>
+                                <td>El nombre del usuario.</td>
+                            </tr>
+                            <tr>
+                                <td>userName</td>
+                                <td>string</td>
+                                <td>El nombre con el que desea loguearse como usuario.</td>
+                            </tr>
+                            <tr>
+                                <td>email</td>
+                                <td>string</td>
+                                <td>El email del usuario.</td>
+                            </tr>
+                            <tr>
+                                <td>role</td>
+                                <td>string</td>
+                                <td>El rol del usuario (por defecto al crearse el usuario, el rol es "user").</td>
+                            </tr>
+                            <tr>
+                                <td>password</td>
+                                <td>string</td>
+                                <td>La contraseña, la cual será hasheada por seguridad.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="usuariosTodos">Get all users: listado de todos los usuarios</h4>
                     <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint GET /users
                     </p>
+                    <p> <strong> Funcionalidad: </strong>Podrás ver un listado de todos los usuarios logueandote como
+                        superadmin.
+                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        GET localhost:3000/users
+
+                        [
+                            {
+                                "_id": "681fbe67b394d30e22be22ce",
+                                "hotel_id": {
+                                    "_id": "6649189a5c8e4a001fa3a001",
+                                    "name": "Hotel Oasis",
+                                    "country": "Argentina",
+                                    "city": "Buenos Aires"
+                                },
+                                "name": "Ana Torres",
+                                "userName": "ana_admin",
+                                "email": "ana@hoteloasis.com",
+                                "role": "admin",
+                                "__v": 0
+                            },
+                            {
+                                "_id": "681fbf4bb394d30e22be22d5",
+                                "hotel_id": {
+                                    "_id": "6649189a5c8e4a001fa3a001",
+                                    "name": "Hotel Oasis",
+                                    "country": "Argentina",
+                                    "city": "Buenos Aires"
+                                },
+                                "name": "Carlos Rodriguez",
+                                "userName": "hab206",
+                                "email": "carlos@gmail.com",
+                                "role": "user",
+                                "__v": 0
+                            }
+                        ]
+
+                    </code>
+                    </pre>
                 </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="crearUsuario">Crear un nuevo usuario</h4>
+                    <h4 class="py-1" id="crearUsuario">Create new user: crea nuevo usuario</h4>
+
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST /users
+                    </p>
+
                     <p> <strong> Funcionalidad: </strong>Permite crear nuevos usuarios. Por defecto el rol al crear un
                         nuevo usuario siemrpe será "user". Si sos administrador o staff de un hotel, deberás esperar que
                         un superadmin te cambie los permisos.
                     </p>
-                    <ul> Campos a ingresar en el body:
+
+                    <p>Campos a ingresar en el body:</p>
+                    <ul>
                         <li>Hotel_id* (permite establecer una relación entre el usuario y el hotel donde se
                             hospeda/trabaja - a futuro debería poder completarse automáticamente - repensar login de
                             usuarios finales)
@@ -563,23 +1039,33 @@
                         <li>Password*</li>
                     </ul>
 
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST /users
-                    </p>
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        
+                        POST localhost:3000/users
+                        
+                        // Body JSON:
+
+                            {
+                                "hotel_id": "6649189a5c8e4a001fa3a002",
+                                "name": "Eduardo",
+                                "userName": "edu123",
+                                "email": "edu@gmail.com",
+                                "password": "123"
+                            }
+
+                    </code>
+                    </pre>
                 </div>
 
                 <div class="fondo">
-                    <h4 class="py-1" id="login">Login del usuario</h4>
-                    <p> <strong> Funcionalidad: </strong>Permite a los usuarios loguearse usando sus credenciales.
-                        Generá un token y devuelve información del usuario tales como el hotel_id o el rol asignado.
-                        Para ingresar deberás colocar en el body de la petición el email y la password.
-                    </p>
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST
-                        /users/login
-                    </p>
-                </div>
+                    <h4 class="py-1" id="editarUsuario">Edit user role: edita el rol del usuario</h4>
 
-                <div class="fondo">
-                    <h4 class="py-1" id="editarUsuario">Editar el rol del usuario</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint PATCH
+                        /users/:id
+                    </p>
+
                     <p> <strong> Funcionalidad: </strong> Por seguridad, siempre que se cree un nuevo usuario por
                         defecto siempre tendrá el rol "user".
                         Sin
@@ -590,14 +1076,68 @@
                         de un hotel. En el body deberás ingresar el nuevo "role", el cual puede ser "admin", "staff" o
                         "superadmin".
                     </p>
-                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint PATCH
-                        /users/:id
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        PATCH localhost:3000/users/6822995e2350c322db70f479
+
+                        // Body JSON:
+                            {
+                                "role": "admin"
+                            }
+
+                    </code>
+                    </pre>
+
+                </div>
+
+                <div class="fondo">
+                    <h4 class="py-1" id="login">User Login: inicio de sesión</h4>
+                    <p> <strong> Endpoint: </strong> Podrás acceder a la funcionalidad usando el endpoint POST
+                        /users/login
                     </p>
+
+                    <p> <strong> Funcionalidad: </strong>Permite a los usuarios loguearse usando sus credenciales.
+                        Generá un token y devuelve información del usuario tales como el hotel_id o el rol asignado.
+                        Para ingresar deberás colocar en el body de la petición el email y la password.
+                    </p>
+
+                    <pre class="bg-dark text-light rounded">
+
+                    <code>
+                        POST localhost:3000/users/login
+
+                        // Body JSON:
+
+                            { 
+                                "email": "equipo@hotelapp.com", 
+                                "password": "supersecure1407" 
+                            } 
+
+                        // Respuesta
+
+                        {
+                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MWZiZmY4YjM5NGQzMGUyMmJlMjJkZSIsImVtYWlsIjoiZXF1aXBvQGhvdGVsYXBwLmNvbSIsInJvbGUiOiJzdXBlcmFkbWluIiwiaG90ZWxfaWQiOiI2NjQ5MTg5YTVjOGU0YTAwMWZhM2EwMDEiLCJpYXQiOjE3NDcwOTgyNzYsImV4cCI6MTc0NzEwMDA3Nn0.MajKFSknrwv8ly8gv-Da5DkKX8xWQSfZPYwsp5T4cRM",
+                            "role": "superadmin"
+                        }
+
+                    </code>
+                    </pre>
+
                 </div>
 
             </div>
         </div>
     </main>
+    <footer class="fondo text-center py-3 mt-5">
+        <div>
+            <p class="mb-1">Nombre y Apellido: <strong>María Florencia Rossi</strong></p>
+            <p class="mb-1">Materia: <strong>Aplicaciones Híbridas</strong></p>
+            <p class="mb-1">Docente: <strong>Prof. Camila Marcos Galbán</strong></p>
+            <p class="mb-0">Comisión: <strong>Comisión DWN4AV - Mayo 2025 </strong></p>
+        </div>
+    </footer>
 </body>
 
 </html>

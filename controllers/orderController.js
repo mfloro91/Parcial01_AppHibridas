@@ -54,7 +54,7 @@ export async function addOrder (req, res) {
         });
 
         const newOrder = await order.save();
-        res.satus(201).json(newOrder)
+        res.status(201).json(newOrder)
         
     } catch(err) {
         res.status(400).json({error: err.message})
