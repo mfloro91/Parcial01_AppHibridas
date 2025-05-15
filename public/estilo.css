@@ -32,3 +32,9 @@ table, th, td {
     border-collapse: collapse;
     padding: 0.75em 1em;
 }
+
+.endpoint {
+    color: green;
+    text-decoration: underline;
+
+}
