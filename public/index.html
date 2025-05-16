@@ -531,13 +531,11 @@
                         eliminarlo. </p>
                     <p>Campos a ingresar en el body:</p>
                     <ul>
-                        <li>Hotel_id* (permite establecer una relación entre el servicio y el hotel donde se brinda
-                            el mismo)
-                        </li>
                         <li>Title*</li>
                         <li>Description</li>
                         <li>Available Hours*</li>
                     </ul>
+                    <p>El hotel_id se ingresa automáticamente desde los datos del login del usuario. Esto permite enlazar el servicio con el hotel donde se brinda y al mismo tiempo, que los admin o miembros del staff solo puedan ingresar servicios para el hotel que administran.</p>
 
                     <pre class="bg-dark text-light rounded">
 
@@ -547,7 +545,6 @@
                         // Body JSON:
 
                        {
-                            "hotel_id": "6649189a5c8e4a001fa3a001",
                             "title": "Cuidado de niños",
                             "description": "Espacios personalizados, para que los peques se diviertan y los adultos puedan desconectar.",
                             "availableHours": "10:00 - 20:00"

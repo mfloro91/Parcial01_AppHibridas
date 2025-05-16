@@ -4,7 +4,6 @@ import hotelModel from "./hotelModel.js";
 const serviceSchema = new mongoose.Schema( {
     hotel_id: {
         type: Schema.Types.ObjectId, ref:'Hotel',
-        required: true,
     },
     title: {
         type: String,

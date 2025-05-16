@@ -25,27 +25,22 @@ export const getAllServicesById = async (req, res) => {
 // Funcion para agregar nuevos servicios
 export async function addService (req, res) {
     try {
-        const {hotel_id, title, description, availableHours } = req.body;
-
-        // Verificando si el hotel existe
-        const hotel = await hotelModel.findById(hotel_id);
-        if (!hotel) {
-            return res.status(400).json({error: "Hotel no encontrado"});
-        }
+        const userHotel = req.user.hotel_id;
+        const {title, description, availableHours } = req.body;
 
         if (!title || !availableHours) {
         return res.status(400).send('El título y los horarios del servicio son obligatorios');
         }
 
         const service = new serviceModel({
-            hotel_id,
+            hotel_id: userHotel,
             title,
             description,
             availableHours
         });
 
         const newService = await service.save();
-        res.json(newService)
+        res.status(201).json(newService)
         
     } catch(err) {
         res.status(400).json({error: err.message})
@@ -58,7 +53,7 @@ export async function addService (req, res) {
 export const editService = async (req, res) => {
     try {
         const serviceUpdated = await serviceModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
-        res.json(serviceUpdated)
+        res.status(201).json(serviceUpdated)
     }catch(err) {
         res.status(400).json({error: err.message})
     }
@@ -68,7 +63,7 @@ export const editService = async (req, res) => {
 export const deleteService = async (req, res) => {
     try {
         const serviceDeleted = await serviceModel.findByIdAndDelete(req.params.id);
-        res.json(serviceDeleted)
+        res.status(201).json(serviceDeleted)
     }catch(err) {
         res.status(400).json({error: err.message})
     }
@@ -81,7 +76,7 @@ export const filterService = async (req, res) => {
                 
         const services = await serviceModel.find({ hotel_id: userHotel }).populate('hotel_id', 'name country city');
                 
-        res.json(services) 
+        res.status(201).json(services) 
 
     }catch(err) {
         res.status(400).json({error: err.message})

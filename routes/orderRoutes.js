@@ -21,7 +21,7 @@ router.post('/', authenticateJWT, authorizeRoles('user', 'superadmin'), addOrder
 // Cambiar el estado de la solicitud (solo para admin)
 router.patch('/:id', authenticateJWT, authorizeRoles('superadmin', 'admin', 'staff'), editOrderStatus);
 
-// Eliminar la solicitud
+// Eliminar la solicitud - a futuro que sea un patch - no se elimina el pedido sino que se cambia el estado a cancelado (solo para admin)
 router.delete('/:id', authenticateJWT, authorizeRoles('superadmin', 'admin', 'staff'), deleteOrder);
 
 export default router;

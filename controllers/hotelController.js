@@ -42,9 +42,19 @@ export async function addHotel (req, res) {
 
 // Funcion para editar hotel existente
 export const editHotel = async (req, res) => {
+    // Verificar hotel_id del token de usuario
+    const {hotel_id, role} = req.user;
+    
+    //Si sos administrador, solo podes editar el hotel que te corresponde
+    if (role === 'admin') {
+        if (hotel_id !== req.params.id) {
+            return res.status(403).json({error: 'No tienes permiso para editar este hotel'});
+        }
+    }
+
     try {
         const hotelUpdated = await hotelModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
-        res.json(hotelUpdated)
+        res.status(201).json(hotelUpdated) 
     }catch(err) {
         res.status(400).json({error: err.message})
     }

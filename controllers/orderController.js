@@ -5,7 +5,7 @@ import serviceModel from "../models/serviceModel.js";
 // Funcion para obtener todos los pedidos
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await orderModel.find().populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
+        const orders = await orderModel.find().sort({ updatedAt: 1 }).populate('hotel_id', 'name country city').populate('service_id', 'title description availableHours');
         res.json(orders)
     } catch (err) {
         res.status(400).json({ error: err.message })
@@ -26,13 +26,8 @@ export const getAllOrdersById = async (req, res) => {
 // Funcion para agregar nuevos pedidos
 export async function addOrder(req, res) {
     try {
-        const { hotel_id, service_id, room_number, note } = req.body;
-
-        // Verificar si el hotel existe
-        const hotel = await hotelModel.findById(hotel_id);
-        if (!hotel) {
-            return res.status(400).json({ error: "Hotel no encontrado" });
-        }
+        const userHotel = req.user.hotel_id;
+        const {service_id, room_number, note } = req.body;
 
         // Verificar si el servicio existe
         const service = await serviceModel.findById(service_id);
@@ -46,7 +41,7 @@ export async function addOrder(req, res) {
 
         // Crear un nuevo pedido
         const order = new orderModel({
-            hotel_id,
+            hotel_id: userHotel,
             service_id,
             room_number,
             note,
